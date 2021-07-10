@@ -1,18 +1,25 @@
 package main
 
 import (
-	"../../pkg/fib"
+	"../../pkg/fibonacci"
 	"fmt"
 )
 
 func main() {
 	var n int
 
-	defer fmt.Println("Complete!")
+	defer fmt.Println("\nCompleted!")
 	fmt.Print("This program can count fibonacci numbers\n", "Please enter number: ")
 	fmt.Scan(&n)
 
-	fib.NumL(n) //by loop
-	fib.NumR(n)	//by recursion
 
+	fmt.Println("Count by with liner execution time:")
+	for i := 1; i < n; i++ {
+		fmt.Print(fibonacci.FibLoop(i)," ") 	//by loop
+	}
+
+	fmt.Println("\nCount by recursion with exponential execution time:")
+	for i := 1; i < n; i++ {
+		fmt.Print(fibonacci.FibRecursion(i), " ") //by recursion
+	}
 }
