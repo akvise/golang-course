@@ -13,16 +13,15 @@ func TestCircle_Area(t *testing.T) {
 		wantErr bool
 	}{
 		{name: "return err if negative value",
-			fields: fields{radius: -10},
-			want: 0,
+			fields:  fields{radius: -10},
+			want:    0,
 			wantErr: true,
 		},
 		{name: "return 201.06192982974676",
-			fields: fields{radius: 8},
-			want: 201.06192982974676,
+			fields:  fields{radius: 8},
+			want:    201.06192982974676,
 			wantErr: false,
 		},
-
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -52,15 +51,15 @@ func TestCircle_Perimeter(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "negative value",
-			fields: fields{radius: -10},
-			want: 0,
+			name:    "negative value",
+			fields:  fields{radius: -10},
+			want:    0,
 			wantErr: true,
 		},
 		{
-			name: "want to 50.26548245743669 value",
-			fields: fields{radius: 8},
-			want: 50.26548245743669,
+			name:    "want to 50.26548245743669 value",
+			fields:  fields{radius: 8},
+			want:    50.26548245743669,
 			wantErr: false,
 		},
 	}
@@ -93,21 +92,21 @@ func TestRectangle_Area(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "want to 27.0 value",
-			fields: fields{width: 3, height: 9},
-			want: 27.0,
+			name:    "want to 27.0 value",
+			fields:  fields{width: 3, height: 9},
+			want:    27.0,
 			wantErr: false,
 		},
 		{
-			name: "err negative width",
-			fields: fields{width: -3, height: 9},
-			want: 0,
+			name:    "err negative width",
+			fields:  fields{width: -3, height: 9},
+			want:    0,
 			wantErr: true,
 		},
 		{
-			name: "err negative height",
-			fields: fields{width: 3, height: -9},
-			want: 0,
+			name:    "err negative height",
+			fields:  fields{width: 3, height: -9},
+			want:    0,
 			wantErr: true,
 		},
 	}
@@ -141,21 +140,21 @@ func TestRectangle_Perimeter(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "want to 27.0 value",
-			fields: fields{width: 3, height: 9},
-			want: 24.0,
+			name:    "want to 27 value",
+			fields:  fields{width: 3, height: 9},
+			want:    24,
 			wantErr: false,
 		},
 		{
-			name: "err negative width",
-			fields: fields{width: -3, height: 9},
-			want: 0,
+			name:    "err negative width",
+			fields:  fields{width: -3, height: 9},
+			want:    0,
 			wantErr: true,
 		},
 		{
-			name: "err negative height",
-			fields: fields{width: 3, height: -9},
-			want: 0,
+			name:    "err negative height",
+			fields:  fields{width: 3, height: -9},
+			want:    0,
 			wantErr: true,
 		},
 	}

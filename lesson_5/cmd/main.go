@@ -29,7 +29,7 @@ func (r Rectangle) String() string {
 }
 
 func (c Circle) Area() (float64, error) {
-	if c.radius < 0 {
+	if c.radius <= 0 {
 		return 0, errors.New("Negative radius\n")
 	} else {
 		return math.Pi * c.radius * c.radius, nil
@@ -37,7 +37,7 @@ func (c Circle) Area() (float64, error) {
 }
 
 func (c Circle) Perimeter() (float64, error) {
-	if c.radius < 0 {
+	if c.radius <= 0 {
 		return 0, errors.New("Negative radius\n")
 	} else {
 		return 2 * math.Pi * c.radius, nil
@@ -46,19 +46,19 @@ func (c Circle) Perimeter() (float64, error) {
 }
 
 func (r Rectangle) Area() (float64, error) {
-	if r.width < 0 {
+	if r.width <= 0 {
 		return 0, errors.New("Negative width\n")
-	} else if r.height < 0 {
+	} else if r.height <= 0 {
 		return 0, errors.New("Negative height\n")
 	} else {
-			return r.width * r.height, nil
+		return r.width * r.height, nil
 	}
 }
 
 func (r Rectangle) Perimeter() (float64, error) {
-	if r.width < 0 {
+	if r.width <= 0 {
 		return 0, errors.New("Negative width\n")
-	} else if r.height < 0 {
+	} else if r.height <= 0 {
 		return 0, errors.New("Negative height\n")
 	} else {
 		return (r.width + r.height) * 2, nil
@@ -67,10 +67,20 @@ func (r Rectangle) Perimeter() (float64, error) {
 
 func DescribeShape(s Shape) {
 	fmt.Println(s)
-	resArea, _ := s.Area()
-	fmt.Printf("Area: %.2f\n", resArea)
-	resPerimeter, _ := s.Perimeter()
-	fmt.Printf("Perimeter: %.2f\n", resPerimeter)
+	resArea, err := s.Area()
+	if err == nil {
+		fmt.Println(err)
+	} else {
+		fmt.Printf("Area: %.2f\n", resArea)
+	}
+
+	resPerimeter, err := s.Perimeter()
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Printf("Perimeter: %.2f\n", resPerimeter)
+	}
+
 }
 func main() {
 	c := Circle{radius: 8}
@@ -80,5 +90,4 @@ func main() {
 	}
 	DescribeShape(c)
 	DescribeShape(r)
-
 }
