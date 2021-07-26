@@ -19,7 +19,7 @@ func main() {
 		fmt.Print("Message Received:", message)
 		r := []rune(message)
 		r = r[:len(r)-2]
-		
+
 		var newMessage string
 		i, err := strconv.Atoi(string(r))
 		if err == nil {
