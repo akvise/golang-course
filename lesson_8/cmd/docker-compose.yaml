@@ -1,0 +1,17 @@
+version: "3"
+
+services: 
+
+  main_server:
+
+    build: main_server
+
+    ports: 
+      - 8080:8080
+
+  server_store:
+
+    build: server_store
+
+    ports:
+      - 8081:8081
