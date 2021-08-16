@@ -1,42 +1,10 @@
 package main
 
 import (
-	"bytes"
-	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
-	"time"
 )
-
-type User struct {
-	Token string 		`json:"token"`
-	CurrentDate string	`json:"current_date"`
-	ExpireAt string 	`json:"expire_at"`
-}
-
-func errFunc(err error, i interface{}){
-	if err != nil {
-		log.Fatal(err, i)
-		return
-	}
-}
-
-func PostToStore(token string, name string, address string) {
-	curUser := User{Token: token, CurrentDate: time.Now().String(),
-		ExpireAt: time.Now().AddDate(0, 0, 10).String()}
-
-	json_data, err := json.Marshal(curUser)
-	errFunc(err, token)
-
-	r, err := http.Post("http://localhost:8081/", "application/json",
-		bytes.NewBuffer(json_data))
-
-	errFunc(err, token)
-
-	fmt.Println(r)
-
-}
 
 func root(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
@@ -58,11 +26,9 @@ func root(w http.ResponseWriter, r *http.Request) {
 
 		cookie := &http.Cookie{
 			Name:  "token",
-			Value: name + ":" + address,
+			Value: name+":"+address,
 		}
-
 		http.SetCookie(w, cookie)
-		PostToStore(cookie.Value, name, address)
 
 		fmt.Fprintf(w, "Name = %s\n", name)
 		fmt.Fprintf(w, "Address = %s\n", address)
@@ -76,9 +42,9 @@ func root(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	fmt.Println("Launching server ...")
+	fmt.Println("Launching server (port:80)...")
 	http.HandleFunc("/", root)
-	if err := http.ListenAndServe(":8080", nil); err != nil {
+	if err := http.ListenAndServe(":80", nil); err != nil {
 		log.Fatal(err)
 	}
 }
