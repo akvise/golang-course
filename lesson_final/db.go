@@ -2,10 +2,10 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"strconv"
 	"time"
 )
 
@@ -26,10 +26,12 @@ func InitDB() {
 	Collection = Database.Collection("list")
 }
 
-func AddDBRequest(id int64, message string) error{
+func AddDBRequest(city string, value string) error{
 
 	_, err := Collection.InsertOne(ctx, bson.D{
-		{Key: strconv.FormatInt(id, 10), Value: message},
+		{Key: "city", Value: city},
+		{Key: "value", Value: value},
+		{Key: "time_requested", Value: time.Now().String()},
 	})
 	if err != nil{
 		return err
@@ -46,6 +48,7 @@ func GetList() (string, error) {
 	defer cur.Close(context.Background())
 
 	var ans string
+
 	for cur.Next(context.Background()) {
 		result := struct {
 			Foo string
@@ -54,7 +57,12 @@ func GetList() (string, error) {
 		err = cur.Decode(&result)
 		ErrFunc(err)
 		raw := cur.Current
-		ans += raw.String() + "\n"
+		var m map[string]interface{}
+		json.Unmarshal([]byte(raw.String()), &m)
+		delete(m, "_id")
+
+		j, _ := json.Marshal(m)
+		ans += string(j) + "\n"
 
 	}
 

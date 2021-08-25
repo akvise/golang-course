@@ -16,21 +16,21 @@ func ErrFunc(err error){
 	}
 }
 
-func ReadToken(path string, tokenType string) (string, error) {
+func ReadToken(Path string, TokenType string) (string, error) {
 	var data map[string]string
 
-	file, err := ioutil.ReadFile(path)
+	file, err := ioutil.ReadFile(Path)
 
 	if err != nil {
 		return "", err
-
 	}
+
 	if err = json.Unmarshal(file, &data); err != nil {
 		return "", err
 	}
 
-	if tokenType == "telegram" || tokenType == "weather" {
-		return data[tokenType], nil
+	if TokenType == "telegram" || TokenType == "weather" {
+		return data[TokenType], nil
 	} else{
 		return "", errors.New("wrong token type")
 	}
@@ -38,7 +38,9 @@ func ReadToken(path string, tokenType string) (string, error) {
 
 func MakeUrl(city string)(string, error){
 	KeyWeather, err := ReadToken("./token.json", "weather")
-	ErrFunc(err)
+	if err != nil {
+		return "", err
+	}
 
 	URL := "https://api.openweathermap.org/data/2.5/weather?q=" +
 		city + "&appid=" + KeyWeather

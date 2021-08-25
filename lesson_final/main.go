@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
+	"github.com/go-telegram-bot-api/telegram-bot-api"
 	"io"
 	"log"
 	"net/http"
@@ -28,11 +28,18 @@ func main() {
 	for update := range updates {
 		InitDB()
 		command := regexp.MustCompile("/[a-z]+").FindString(update.Message.Text)
-		ID := update.Message.Chat.ID
-		err = AddDBRequest(ID, update.Message.Text)
-		ErrFunc(err)
-		log.Println("ID:", ID, "  message:", update.Message.Text)
 
+		ID := update.Message.Chat.ID
+
+		var Text string
+
+		log.Println("ID:", ID, "  message:", Text)
+
+		if len(update.Message.Text) > 100 {
+			Text = update.Message.Text[:100]
+		}else{
+			Text = update.Message.Text
+		}
 		switch command {
 		case "/start":
 			message := "WeatherBot that use API `https://openweathermap.org/`\n" +
@@ -40,7 +47,6 @@ func main() {
 			response := tgbotapi.NewMessage(ID, message)
 
 			bot.Send(response)
-
 		case "/help":
 			message := "You can use / for commands\n" +
 				"`/city` [Name] - get weather by cityName\n" +
@@ -52,6 +58,7 @@ func main() {
 		case "/city":
 			text := update.Message.Text
 			city := strings.Fields(text)
+
 			if len(city) == 1{
 				response := tgbotapi.NewMessage(ID, "incorrect request")
 				bot.Send(response)
@@ -84,6 +91,8 @@ func main() {
 			}else{
 				ans = "something wrong"
 			}
+			err = AddDBRequest(cityStr, ans)
+			ErrFunc(err)
 			response := tgbotapi.NewMessage(ID, ans)
 			bot.Send(response)
 
