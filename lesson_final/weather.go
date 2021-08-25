@@ -40,7 +40,6 @@ func MakeUrl(city string)(string, error){
 	KeyWeather, err := ReadToken("./token.json", "weather")
 	ErrFunc(err)
 
-
 	URL := "https://api.openweathermap.org/data/2.5/weather?q=" +
 		city + "&appid=" + KeyWeather
 
