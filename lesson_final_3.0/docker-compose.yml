@@ -1,0 +1,21 @@
+version: '3.3'
+
+services:
+
+  server:
+    image: golang:latest
+    container_name: "go-bot"
+    build: ./
+    command: ./app
+
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo:latest
+    container_name: "mongodb"
+
+    volumes:
+      - ./.data/db:/data/db
+    ports:
+      - 27017:27017
